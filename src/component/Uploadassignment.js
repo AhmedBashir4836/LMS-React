@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import React from 'react';
 
 class UploadAssignment extends React.Component {
@@ -40,10 +39,19 @@ class UploadAssignment extends React.Component {
         );
 	
 	// Details of the uploaded file
-	console.log(this.state.selectedFile);
+		console.log(this.state.selectedFile);
   // Request made to the backend api
 	// Send formData object
-	axios.post("api/assignment", formData);
+	axios.post("/api/upload", formData,{
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+		})
+		.then((response)=>{
+		console.log("File uploaded successfully");
+	}).catch((error) => {
+        console.log("Error");
+      });
 	};
 	
 	// File content to be displayed after
@@ -80,37 +88,23 @@ class UploadAssignment extends React.Component {
 	
 	return (
 		<div>
-			<h1>Upload Assignment</h1>
-      <p>Upload The Assignment</p>
+			<p></p>
+        	<hr/>
 			<div>
-				<input type="file" onChange={this.onFileChange} />
-        <p>Start Date</p>
-        <input type="Date" onChange={this.onStartDate}/>
-        <p>End Date</p>
-        <input type="Date" onChange={this.onEndDate}/>
-        <p></p>
-        <button onClick={this.onFileUpload}>Upload File</button>
+        		<p>Start Date</p>
+        		<input type="Date" onChange={this.onStartDate}/>
+        		<p>End Date</p>
+        		<input type="Date" onChange={this.onEndDate}/>
+        		<p></p>
+        		<input type="file" onChange={this.onFileChange} />
+        		<p></p>
+        		<button onClick={this.onFileUpload}>Upload File</button>
 			</div>
-		{this.fileData()}
+			{this.fileData()}
 		</div>
 	);
 	}
 }
 
-/*function UploadAssignment() {
-  return (
-    <div className="App">
-      <h1>UploadAssignment</h1>
-      <p>Upload The Assignment</p>
-      <input type="file" name="file"/>
-      <p>Start Date</p>
-      <input type="Date"/>
-      <p>End Date</p>
-      <input type="Date"/>
-      <p>File Name:</p>
-      <button>Upload File</button>
-    </div>
-  );
-}*/
 
 export default UploadAssignment;

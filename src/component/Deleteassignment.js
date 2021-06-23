@@ -1,43 +1,31 @@
-
-/*function DeleteAssignment() {
-  return (
-    <div className="App">
-      <h1>Delete Assignment</h1>
-    </div>
-  );
-}*/
-
 import React from 'react';
 import axios from 'axios';
 
 class DeleteAssignment extends React.Component {
-  state = {
-    id: '',
+  state={
+    id:'',
+  }
+  handleChange = event=>{
+    this.setState({id:event.target.value});
   }
 
-  handleChange = event => {
-    this.setState({ id: event.target.value });
+  onSubmit = ()=>{
+    const idObj = {
+      id:this.state.id
+    }
+    axios.delete('https://reqres.in/api/posts/'+String(idObj))
+        .then(() => this.setState({ status: 'Delete successful' }));
   }
-
-  handleSubmit = event => {
-    event.preventDefault();
-
-    axios.delete(`https://jsonplaceholder.typicode.com/users/${this.state.id}`)
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-  }
-
   render() {
     return (
       <div>
+        <hr/>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Person ID:
+            Assignment No
             <input type="text" name="id" onChange={this.handleChange} />
           </label>
-          <button type="submit">Delete</button>
+          <button onClick={this.onSubmit}>Delete</button>
         </form>
       </div>
     )
